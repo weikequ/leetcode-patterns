@@ -33,7 +33,9 @@ const Table = () => {
   let checkedList =
     JSON.parse(localStorage.getItem('checked')) ||
     new Array(data.length).fill(false);
-
+  const notesList =
+    JSON.parse(localStorage.getItem('notes')) ||
+    new Array(data.length).fill('');
   /* If the user has previously visited the website, then an array in
   LocalStorage would exist of a certain length which corresponds to which
   questions they have/have not completed. In the event that we add new questions
@@ -60,6 +62,7 @@ const Table = () => {
 
   const [difficultyCount, setDifficultyCount] = useState(difficultyMap);
   const [checked, setChecked] = useState(checkedList);
+  const [notes, setNotes] = useState(notesList);
   const [showPatterns, setShowPatterns] = useState(
     JSON.parse(localStorage.getItem('showPatterns')) || new Array(1).fill(true),
   );
@@ -67,6 +70,10 @@ const Table = () => {
   useEffect(() => {
     window.localStorage.setItem('checked', JSON.stringify(checked));
   }, [checked]);
+
+  useEffect(() => {
+    window.localStorage.setItem('notes', JSON.stringify(notes));
+  });
 
   useEffect(() => {
     window.localStorage.setItem('showPatterns', JSON.stringify(showPatterns));
@@ -83,6 +90,7 @@ const Table = () => {
 
   const resetHandler = () => {
     setChecked(new Array(checked.length).fill(false));
+    setNotes(new Array(checked.length).fill(false));
     setDifficultyCount(() => {
       return { Easy: 0, Medium: 0, Hard: 0 };
     });
@@ -338,6 +346,33 @@ const Table = () => {
               });
 
               return <Row className="companies">{companies}</Row>;
+            },
+            Filter: SelectColumnFilter,
+          },
+          {
+            Header: () => {
+              return (
+                <>
+                  <div
+                    style={{ whiteSpace: 'nowrap', display: 'inline-block' }}
+                  >
+                    Notes
+                  </div>
+                </>
+              );
+            },
+            id: 'Notes',
+            Cell: cellInfo => {
+              return (
+                <input
+                  type="text"
+                  value={notes[cellInfo.row.original.id]}
+                  onChange={({ target }) => {
+                    notes[cellInfo.row.original.id] = target.value;
+                    setNotes([...notes]);
+                  }}
+                />
+              );
             },
             Filter: SelectColumnFilter,
           },
