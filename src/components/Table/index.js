@@ -90,7 +90,7 @@ const Table = () => {
 
   const resetHandler = () => {
     setChecked(new Array(checked.length).fill(false));
-    setNotes(new Array(checked.length).fill(false));
+    setNotes(new Array(checked.length).fill(''));
     setDifficultyCount(() => {
       return { Easy: 0, Medium: 0, Hard: 0 };
     });
