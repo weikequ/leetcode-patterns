@@ -350,23 +350,13 @@ const Table = () => {
             Filter: SelectColumnFilter,
           },
           {
-            Header: () => {
-              return (
-                <>
-                  <div
-                    style={{ whiteSpace: 'nowrap', display: 'inline-block' }}
-                  >
-                    Notes
-                  </div>
-                </>
-              );
-            },
+            Header: 'Notes',
             id: 'Notes',
             Cell: cellInfo => {
               return (
-                <input
-                  type="text"
+                <textarea
                   value={notes[cellInfo.row.original.id]}
+                  cols="40"
                   onChange={({ target }) => {
                     notes[cellInfo.row.original.id] = target.value;
                     setNotes([...notes]);
